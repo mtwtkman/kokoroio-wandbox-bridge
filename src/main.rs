@@ -27,7 +27,11 @@ fn main() {
     
     let kokoro_client = KokoroClient { access_token };
 
-    rouille::start_server("0.0.0.0:55301", move |request| {
+    let port = match env::var_os("KOKOROIO_WANDBOX_BRIDGE_SERVER_PORT") {
+        Some(value) => value.to_str().unwrap().to_string(),
+        None => "55301".to_string(),
+    };
+    rouille::start_server(format!("0.0.0.0:{}", port), move |request| {
         router!(request,
             (GET) (/) => {
                 rouille::Response::text("hi")

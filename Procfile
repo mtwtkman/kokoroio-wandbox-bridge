@@ -1,1 +1,1 @@
-web: ./target/release/kokoro-eval
+web: KOKOROIO_WANDBOX_BRIDGE_SERVER_PORT=$PORT ./target/release/kokoro-eval
