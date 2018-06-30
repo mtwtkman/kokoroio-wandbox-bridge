@@ -1,0 +1,14 @@
+[package]
+name = "kokoro-eval"
+version = "0.0.1"
+authors = ["mtwtkman"]
+
+[dependencies]
+reqwest = "*"
+serde = "*"
+serde_derive = "*"
+serde_json = "*"
+rouille = "*"
+regex = "*"
+lazy_static = "*"
+hyper = "*"
