@@ -12,11 +12,11 @@ pub mod command {
     impl Command {
         pub fn parse(s: &str) -> Option<Command> {
             lazy_static! {
-                static ref RE: Regex = Regex::new(r"^/wandbox\s+(?P<language>\w+)\s*\n+(?P<code>(?s).+)$").unwrap();
+                static ref RE: Regex = Regex::new(r"^/wandbox\s+(?P<language>\w+(?:\s\w+|\+{2}|#)?)\s*\n+(?P<code>(?s).+)").unwrap();
             }        
             RE.captures(s).and_then(|matched| {
                 let compilers: HashMap<String, String> = fetch_compilers().unwrap();
-                if let Some(compiler) = &compilers.get(&matched["language"].to_lowercase()) {
+                if let Some(compiler) = &compilers.get(&matched["language"].trim().to_lowercase()) {
                     return Some(Command {
                         compiler: compiler.to_string(),
                         code: matched["code"].to_string(),

@@ -44,8 +44,11 @@ fn main() {
                             Some(command) => {
                                 let result: CompiledResult = send_code(&command).unwrap();
                                 let mut payload: HashMap<String, String> = HashMap::new();
-                                payload.insert("message".to_string(), format!("```\n{}```", result.program_message).to_string());
-                                payload.insert("display_name".to_string(), "wandbox".to_string());
+                                let message = match &result.status as &str {
+                                    "0" => format!("```\n{}```", &result.program_message),
+                                    x => format!("status code: {}", x),
+                                };
+                                payload.insert("message".to_string(), message.to_string());
                                 let resp = &kokoro_client.post(&body.channel, &payload);
                                 println!("{:?}", &resp);
                                 rouille::Response::text("done")
